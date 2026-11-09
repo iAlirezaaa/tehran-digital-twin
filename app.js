@@ -25,7 +25,7 @@ const PLACES = [
 const el = id => document.getElementById(id);
 const isReducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const saved = (() => { try { return JSON.parse(localStorage.getItem('tehran-map-preferences') || '{}'); } catch { return {}; } })();
-const settings = {buildings:saved.buildings !== false, terrain:!!saved.terrain, dark:!!saved.dark};
+const settings = {buildings:saved.schemaVersion===3 ? saved.buildings !== false : true, terrain:!!saved.terrain, dark:!!saved.dark};
 for (const name of ['buildings','terrain','dark']) el(`toggle-${name}`).checked = settings[name];
 const params = new URLSearchParams(location.hash.slice(1));
 const parseNum = (s, lo, hi, fallback) => { const n=Number(s); return Number.isFinite(n) && n>=lo && n<=hi ? n : fallback; };
@@ -56,7 +56,7 @@ map.addControl(new maplibregl.NavigationControl({showCompass:true,showZoom:true,
 map.addControl(new maplibregl.FullscreenControl(),'top-right');
 map.addControl(new maplibregl.AttributionControl({compact:true,customAttribution:'Map tiles © OpenFreeMap · Terrain: Mapzen/AWS Open Data'}),'bottom-right');
 
-function persist(){ try{localStorage.setItem('tehran-map-preferences', JSON.stringify(settings));}catch{} }
+function persist(){ try{localStorage.setItem('tehran-map-preferences', JSON.stringify({...settings,schemaVersion:3}));}catch{} }
 let toastTimer;
 function toast(message){const box=el('toast');box.textContent=message;box.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>box.classList.remove('show'),3500);}
 function addBuildings() {
