@@ -1,6 +1,7 @@
-import * as maplibregl from 'https://unpkg.com/maplibre-gl@6.17.0/dist/maplibre-gl.mjs';
+const maplibregl = await import('https://unpkg.com/maplibre-gl@6.17.0/dist/maplibre-gl.mjs')
+  .catch(async () => import('https://cdn.jsdelivr.net/npm/maplibre-gl@6.17.0/dist/maplibre-gl.mjs'));
 
-const CENTER = [51.389, 35.6892];
+const CENTER = [51.359, 35.715]; // Sattarkhan: default detailed 3D start; citywide via Home.
 // Navigation framing, not a legal/municipal boundary.
 const TEHRAN_VIEW = [[50.94, 35.47], [51.73, 35.91]];
 const STYLES = {
@@ -29,8 +30,8 @@ for (const name of ['buildings','terrain','dark']) el(`toggle-${name}`).checked 
 const params = new URLSearchParams(location.hash.slice(1));
 const parseNum = (s, lo, hi, fallback) => { const n=Number(s); return Number.isFinite(n) && n>=lo && n<=hi ? n : fallback; };
 const urlCenter = [parseNum(params.get('lng'),50,53,CENTER[0]),parseNum(params.get('lat'),35,37,CENTER[1])];
-const initialZoom = parseNum(params.get('z'),8,19,11.4);
-const initialPitch = parseNum(params.get('pitch'),0,75,48);
+const initialZoom = parseNum(params.get('z'),8,19,16.1);
+const initialPitch = parseNum(params.get('pitch'),0,75,62);
 
 if (!maplibregl.supported()) {
   el('loading').innerHTML = 'مرورگر از WebGL لازم برای نمایش نقشه پشتیبانی نمی‌کند.';
@@ -42,7 +43,7 @@ const map = new maplibregl.Map({
   center:urlCenter,
   zoom:initialZoom,
   pitch:initialPitch,
-  bearing:parseNum(params.get('bearing'),-180,180,0),
+  bearing:parseNum(params.get('bearing'),-180,180,-17),
   minZoom:9,
   maxZoom:19,
   maxPitch:75,
@@ -50,6 +51,7 @@ const map = new maplibregl.Map({
   canvasContextAttributes:{antialias:true},
   cooperativeGestures:false
 });
+window.tehranMap=map;
 map.addControl(new maplibregl.NavigationControl({showCompass:true,showZoom:true,visualizePitch:true}),'top-right');
 map.addControl(new maplibregl.FullscreenControl(),'top-right');
 map.addControl(new maplibregl.AttributionControl({compact:true,customAttribution:'Map tiles © OpenFreeMap · Terrain: Mapzen/AWS Open Data'}),'bottom-right');
@@ -73,7 +75,7 @@ function addBuildings() {
     paint:{
       'fill-extrusion-color':settings.dark?'#8daebf':'#b9bbb8',
       'fill-extrusion-opacity':0.86,
-      'fill-extrusion-height':['interpolate',['linear'],['zoom'],15,0,15.3,['coalesce',['to-number',['get','render_height']],9]],
+      'fill-extrusion-height':['interpolate',['linear'],['zoom'],15,0,15.3,['case',['>', ['to-number',['get','render_height'],0],0],['to-number',['get','render_height']],9]],
       'fill-extrusion-base':['interpolate',['linear'],['zoom'],15,0,15.3,['coalesce',['to-number',['get','render_min_height']],0]]
     }
   },firstLabel?.id);
@@ -89,7 +91,7 @@ function setupStyle(){
   try{addBuildings();setupTerrain();updateStats();}catch(err){console.error('Layer initialization failed',err);toast('بارگذاری یکی از لایه‌ها انجام نشد. دوباره تلاش کنید.');}
 }
 map.on('style.load',setupStyle);
-map.on('load',()=>{el('loading').classList.add('hidden');updateStats();window.tehranAtlasReady?.();});
+map.on('load',()=>{el('loading').classList.add('hidden');updateStats();window.tehranAtlasReady?.();window.dispatchEvent(new Event('tehran:ready'));});
 let initialMapErrors = 0;
 map.on('error',e=>{
   console.warn('Map layer error:',e.error || e);
