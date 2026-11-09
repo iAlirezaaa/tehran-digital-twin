@@ -14,6 +14,17 @@ class StaticAtlasTests(unittest.TestCase):
         for name in ("index.html", "styles.css", "app.js", ".nojekyll", ".github/workflows/validate.yml"):
             self.assertTrue((ROOT / name).is_file(), name)
 
+    def test_bootstrap_has_bounded_loading_and_basic_map(self):
+        html = (ROOT / "index.html").read_text(encoding="utf-8")
+        bootstrap = (ROOT / "bootstrap.js").read_text(encoding="utf-8")
+        app = (ROOT / "app.js").read_text(encoding="utf-8")
+        self.assertIn('src="./bootstrap.js?v=0.2.1"', html)
+        self.assertIn("import('./app.js?v=0.2.1')", bootstrap)
+        self.assertIn("setTimeout(() => useFallback(", bootstrap)
+        self.assertIn("openstreetmap.org/export/embed.html", bootstrap)
+        self.assertIn("window.tehranAtlasReady?.()", app)
+        self.assertIn("window.tehranAtlasFallback?.(", app)
+
     def test_source_registry_json(self):
         data = json.loads((ROOT / "data/sources.json").read_text())
         self.assertTrue(any(s["name"] == "OpenStreetMap" for s in data["sources"]))
