@@ -1,0 +1,28 @@
+/* Tehran GIS / area-inspector extension */
+.three-d-button{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:38px;background:#153f46;color:#ecfff4;border:1px solid #68bdaf;border-radius:11px;box-shadow:0 8px 26px #0004;font-weight:800;white-space:nowrap;padding:0 13px;direction:ltr;font-size:12px}
+.three-d-button:hover,.three-d-button:focus-visible{background:#217366;color:#fff}
+.three-d-button span{font-size:20px;line-height:1}
+.area-section{border-top:1px solid var(--line);padding-bottom:22px}
+.area-section .section-heading{margin-bottom:10px}
+.area-help{margin:0 0 14px;color:var(--muted);font-size:12px;line-height:1.85}
+.area-toolbar{display:flex;gap:8px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.area-toolbar>span{color:#beded5;font-size:11px;direction:ltr}
+.area-toolbar button{background:#263f44;color:#ddfff3;border:1px solid #43605d;border-radius:8px;padding:7px 10px;font-size:11px}
+.area-toolbar button:hover{background:#315f59}
+.area-status{font-size:11px;color:#9caebc;line-height:1.8;margin:12px 0;min-height:32px}
+.area-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+.area-stat{background:#1c2b39;border:1px solid #304052;border-radius:10px;padding:9px 6px;display:flex;flex-direction:column;gap:5px;min-height:64px;align-items:center;text-align:center}
+.area-stat strong{color:#9deac4;font-size:17px;font-weight:800;direction:ltr}
+.area-stat>span{font-size:10px;line-height:1.6;color:#b0c4d0}
+.area-subtitle{font-size:12px;color:#d4e5ec;margin:18px 0 10px}
+.area-uses{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+.area-use{display:flex;justify-content:space-between;align-items:center;gap:7px;padding:9px 8px;background:#1b2b38;border-radius:8px;font-size:11px;color:#cbdce5}
+.area-use-count{font-size:11px;color:#8ce0b8;font-weight:700}
+.area-places{max-height:280px;overflow:auto;display:grid;gap:5px;scrollbar-width:thin}
+.area-places>span{font-size:11px;line-height:1.7;color:#95a8b8}
+.area-place{background:#182735;color:inherit;border:1px solid #2a4050;text-align:right;border-radius:9px;padding:9px 11px;display:grid;gap:3px}
+.area-place:hover{background:#2b4050}
+.area-place b{font-size:12px;font-weight:700}
+.area-place small{font-size:10px;color:#91abbd;line-height:1.5;overflow-wrap:anywhere}
+.area-picked{background:#1e3441;border-right:2px solid #8ddfb2;color:#d3e9e7;border-radius:7px;padding:11px;font-size:11px;line-height:1.9;margin:0}
+@media(max-width:700px){.area-stats{grid-template-columns:repeat(3,minmax(0,1fr))}.three-d-button{height:36px;min-height:36px;font-size:11px;padding-inline:10px}.area-section{padding-bottom:25px}}
