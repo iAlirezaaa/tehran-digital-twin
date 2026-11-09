@@ -96,7 +96,7 @@
   const style=document.createElement('style');
   style.textContent='.tehran-basic-notice{position:absolute;z-index:3;top:77px;left:15px;right:15px;max-width:510px;box-shadow:0 4px 20px #0013;background:#fff;border:1px solid #d2dcdf;border-radius:12px;padding:10px 12px;color:#243947;font-size:12px;display:flex;gap:10px;align-items:center;justify-content:space-between;line-height:1.7}.tehran-basic-notice a{white-space:nowrap;color:#0b7260;text-decoration:underline}@media(max-width:700px){.tehran-basic-notice{top:110px;flex-wrap:wrap;max-width:calc(100% - 30px)}}';
   document.head.appendChild(style);
-  const watchdog = setTimeout(() => useFallback('زمان بارگذاری سرویس نقشه طولانی شد.'), 14000);
+  const watchdog = setTimeout(() => useFallback('زمان بارگذاری سرویس نقشه طولانی شد.'), 22000);
   window.tehranAtlasReady = () => {
     if (fallback) return;
     ready = true; clearTimeout(watchdog);
@@ -109,7 +109,7 @@
       useFallback('یک سرویس نقشه یا کتابخانه بارگذاری نشد.');
     }
   });
-  import('./app.js?v=0.2.1').catch(err => {
+  import('./app.js?v=0.3.0').catch(err => {
     console.error('Tehran atlas module failed:',err);
     useFallback('بارگذاری موتور سه‌بعدی ناموفق بود.');
   });
