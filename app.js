@@ -89,8 +89,16 @@ function setupStyle(){
   try{addBuildings();setupTerrain();updateStats();}catch(err){console.error('Layer initialization failed',err);toast('بارگذاری یکی از لایه‌ها انجام نشد. دوباره تلاش کنید.');}
 }
 map.on('style.load',setupStyle);
-map.on('load',()=>{el('loading').classList.add('hidden');updateStats();});
-map.on('error',e=>{console.warn('Map layer error:',e.error || e);if(!map.loaded())el('loading').querySelector('span').textContent='برقراری ارتباط با داده‌های نقشه…';});
+map.on('load',()=>{el('loading').classList.add('hidden');updateStats();window.tehranAtlasReady?.();});
+let initialMapErrors = 0;
+map.on('error',e=>{
+  console.warn('Map layer error:',e.error || e);
+  if(!map.loaded()) {
+    const span=el('loading')?.querySelector('span');
+    if(span) span.textContent='برقراری ارتباط با داده‌های نقشه…';
+    if(++initialMapErrors >= 4) window.tehranAtlasFallback?.('دریافت نقشهٔ سه‌بعدی از سرویس اصلی ناموفق بود.');
+  }
+});
 function setLayer(name,enabled){
   settings[name]=enabled;persist();
   if(name==='dark'){map.setStyle(STYLES[settings.dark?'dark':'light']);}
