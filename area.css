@@ -26,3 +26,5 @@
 .area-place small{font-size:10px;color:#91abbd;line-height:1.5;overflow-wrap:anywhere}
 .area-picked{background:#1e3441;border-right:2px solid #8ddfb2;color:#d3e9e7;border-radius:7px;padding:11px;font-size:11px;line-height:1.9;margin:0}
 @media(max-width:700px){.area-stats{grid-template-columns:repeat(3,minmax(0,1fr))}.three-d-button{height:36px;min-height:36px;font-size:11px;padding-inline:10px}.area-section{padding-bottom:25px}}
+
+.area-landuse-caption{display:block;grid-column:1/-1;font-size:10px;color:#a9c8d4;margin-top:4px;line-height:1.7}
