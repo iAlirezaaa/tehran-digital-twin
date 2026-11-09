@@ -1,0 +1,14 @@
+{
+  "project": "Tehran Digital Atlas",
+  "generated_at": "2026-11-10",
+  "coverage": "Tehran metropolitan exploration viewport; not an administrative polygon",
+  "sources": [
+    {"name":"OpenFreeMap","role":"streaming vector map and building extrusion","url":"https://openfreemap.org/","accuracy":"source data varies by OpenStreetMap coverage"},
+    {"name":"OpenStreetMap","role":"road / landuse / building footprint data","url":"https://www.openstreetmap.org/copyright","license":"ODbL"},
+    {"name":"Mapzen / AWS Elevation","role":"terrain","url":"https://registry.opendata.aws/terrain-tiles/","accuracy":"regional digital elevation model"},
+    {"name":"Nominatim","role":"manual place search","url":"https://nominatim.org/","constraint":"public endpoint usage policy"},
+    {"name":"Overture Maps","role":"future building reference and QA","url":"https://docs.overturemaps.org/guides/buildings/","status":"not yet imported"},
+    {"name":"Geofabrik Iran","role":"future offline OSM extract","url":"https://download.geofabrik.de/asia/iran.html","status":"not yet imported"}
+  ],
+  "fallbacks": {"building_render_height_m":9,"meaning":"visualization only; not surveyed building height"}
+}

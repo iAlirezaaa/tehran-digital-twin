@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="description" content="اطلس سه‌بعدی تهران؛ شبکه معابر، عوارض ساختمان و ناهمواری زمین بر پایه داده‌های باز.">
+  <meta name="theme-color" content="#101924">
+  <title>تهران / اطلس سه‌بعدی شهری</title>
+  <link rel="preconnect" href="https://tiles.openfreemap.org">
+  <link rel="preconnect" href="https://unpkg.com">
+  <link href="https://unpkg.com/maplibre-gl@6.17.0/dist/maplibre-gl.css" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar" aria-label="ابزارهای اطلس تهران">
+      <div class="brand-row">
+        <span class="brand-symbol" aria-hidden="true"><span></span><span></span><span></span></span>
+        <div><div class="eyebrow">TEHRAN DIGITAL ATLAS</div><h1>تهران<span class="brand-dot">.</span></h1></div>
+        <span class="version" title="نسخه آزمایشی">BETA 0.1</span>
+      </div>
+      <div class="sidebar-scroll">
+        <section class="intro">
+          <div class="section-kicker"><span class="live-dot"></span> نقشهٔ زندهٔ شهری</div>
+          <h2>تهران را از نو کشف کن.</h2>
+          <p>نمایش سراسری خیابان‌ها، بافت شهری، حجم ساختمان‌ها و پستی‌بلندی‌ها بر اساس داده‌های باز؛ نه بازسازی دستی یا مدل‌سازی تصادفی.</p>
+        </section>
+        <form class="search" id="search-form" role="search">
+          <label class="label" for="search-input">جست‌وجوی محله و مکان</label>
+          <div class="search-control"><input id="search-input" name="q" type="search" placeholder="مثلاً میدان ونک یا ستارخان" autocomplete="off" maxlength="80"><button type="submit" aria-label="جست‌وجو"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.7"/><path d="m16 16 5 5"/></svg></button></div>
+          <div id="search-status" class="search-status" role="status" aria-live="polite"></div>
+        </form>
+        <section class="section" aria-labelledby="places-heading">
+          <div class="section-heading"><h3 id="places-heading">مقصدهای سریع</h3><span>۸ مکان</span></div>
+          <div class="place-grid" id="place-grid"></div>
+        </section>
+        <section class="section" aria-labelledby="layers-heading">
+          <div class="section-heading"><h3 id="layers-heading">لایه‌های نقشه</h3><span>LIVE DATA</span></div>
+          <label class="toggle-row"><span class="toggle-copy"><span class="toggle-icon">▥</span><span><strong>حجم سه‌بعدی ساختمان‌ها</strong><small>در بزرگ‌نمایی ۱۵ و بیشتر</small></span></span><input id="toggle-buildings" type="checkbox" checked><span class="switch" aria-hidden="true"></span></label>
+          <label class="toggle-row"><span class="toggle-copy"><span class="toggle-icon">⌁</span><span><strong>توپوگرافی سه‌بعدی</strong><small>داده ارتفاعی زمین (DEM)</small></span></span><input id="toggle-terrain" type="checkbox"><span class="switch" aria-hidden="true"></span></label>
+          <label class="toggle-row"><span class="toggle-copy"><span class="toggle-icon">☾</span><span><strong>نمای تاریک</strong><small>تغییر سبک پایهٔ نقشه</small></span></span><input id="toggle-dark" type="checkbox"><span class="switch" aria-hidden="true"></span></label>
+        </section>
+        <div class="notice"><span class="notice-icon">i</span><div><strong>دقت داده‌ها</strong><p>مکان و شکل عوارض از منابع نقشه‌ای است؛ ارتفاع بسیاری از ساختمان‌ها و جزئیات نمای آن‌ها تأیید میدانی نشده و ممکن است تقریبی باشد.</p></div></div>
+      </div>
+      <footer class="sidebar-footer"><span>© مشارکت‌کنندگان OpenStreetMap</span><a href="https://github.com/" target="_blank" rel="noopener noreferrer" id="source-link">کد پروژه ↗</a></footer>
+    </aside>
+    <main class="main-map" aria-label="نقشه تعاملی تهران">
+      <div id="map" aria-label="نقشه قابل پیمایش تهران با امکان تغییر زاویه و بزرگ‌نمایی"></div>
+      <div class="top-overlay">
+        <div class="map-pill"><span class="pulse-dot"></span><span>TEHRAN · IRAN</span><span class="pill-sep"></span><span id="scale-label">نمای سراسری</span></div>
+        <button class="map-action" id="home-btn" type="button" title="نمای کل تهران" aria-label="بازگشت به کل تهران"><svg viewBox="0 0 24 24"><path d="m3 10 9-7 9 7v10H3z"/><path d="M9 20v-7h6v7"/></svg></button>
+        <button class="map-action" id="share-btn" type="button" title="کپی لینک این نما" aria-label="کپی لینک همین نما"><svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="2"/><circle cx="6" cy="12" r="2"/><circle cx="18" cy="19" r="2"/><path d="m8 11 8-5M8 13l8 5"/></svg></button>
+      </div>
+      <div class="map-bottom-info"><div class="info-title"><span class="info-pin">◎</span> دادهٔ زنده روی محدودهٔ قابل مشاهده</div><div class="metrics"><div><strong id="zoom-value">—</strong><span>بزرگ‌نمایی</span></div><div><strong id="visible-value">—</strong><span>عوارض ساختمانی قابل مشاهده</span></div><div><strong id="view-value">دو‌بعدی / سه‌بعدی</strong><span>حالت نمایش</span></div></div><p class="info-foot">تعداد عوارض در نما، شمار کل ساختمان‌های تهران نیست.</p></div>
+      <div class="map-coordinate" id="coords" aria-live="off">35.6892° N · 51.3890° E</div>
+      <div class="loading" id="loading" role="status" aria-live="polite"><div class="spinner"></div><span>در حال بارگذاری اطلس تهران…</span></div>
+      <div class="toast" id="toast" role="status" aria-live="polite"></div>
+      <button class="sidebar-toggle" id="sidebar-toggle" type="button" aria-controls="sidebar" aria-expanded="true">تنظیمات نقشه <span aria-hidden="true">⌃</span></button>
+    </main>
+  </div>
+  <script type="module" src="./app.js"></script>
+</body>
+</html>
