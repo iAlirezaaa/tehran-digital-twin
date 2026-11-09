@@ -78,9 +78,40 @@ function draw() {
   const labeled=pois.filter(f=>nameOf(f.properties||{}));
   const cats={};
   for (const f of pois){const cat=categoryOf(f.properties||{});cats[cat]=(cats[cat]||0)+1;}
+  // Land-use polygons are not POIs: report them separately and do not confuse
+  // polygon counts with measured land area or the number of institutions.
+  const landLabels = {
+    residential:'بافت مسکونی',commercial:'کاربری تجاری',industrial:'کاربری صنعتی',
+    retail:'خرده‌فروشی',school:'محدودهٔ آموزشی',university:'محدودهٔ دانشگاهی',
+    hospital:'محدودهٔ درمانی',railway:'راه‌آهن',parking:'پارکینگ',
+    cemetery:'آرامستان',military:'نظامی',garages:'گاراژ',stadium:'ورزشگاه',
+    playground:'زمین بازی',park:'فضای سبز'
+  };
+  const usesCount={};
+  for(const f of landuse){
+    const p=f.properties||{},raw=p.class||p.type;
+    if(!raw)continue;
+    const name=landLabels[raw]||raw;
+    usesCount[name]=(usesCount[name]||0)+1;
+  }
   stats.append(card('ساختمان‌های شناسایی‌شده در کاشی‌های نما',fa(building.length),'شمار تقریبی؛ کاشی‌های همپوشان و هندسه‌های چندبخشی ممکن است خطا ایجاد کنند'));
   stats.append(card('مکان‌های ثبت‌شده',fa(pois.length)));
   stats.append(card('نام‌های مکان',fa(labeled.length)));
+  const useTypes = Object.entries(usesCount).sort((a,b)=>b[1]-a[1]).slice(0,5);
+  if(useTypes.length){
+    const label=document.createElement('small');
+    label.className='area-landuse-caption';
+    label.textContent='کاربری‌های سطح زمین (تعداد عوارض، نه مساحت):';
+    uses.append(label);
+    for(const [name,count] of useTypes) {
+      const item=document.createElement('div');item.className='area-use';
+      item.append(html(name));
+      const countLabel=html(fa(count));countLabel.className='area-use-count';item.append(countLabel);
+      uses.append(item);
+    }
+    const label2=document.createElement('small');label2.className='area-landuse-caption';label2.textContent='خدمات و مکان‌های نقطه‌ای:';
+    uses.append(label2);
+  }
   const order=Object.entries(cats).sort((a,b)=>b[1]-a[1]);
   if(!order.length) {
     uses.append(html('در این بزرگ‌نمایی، دسته‌بندی نقطه‌ای قابل گزارش یافت نشد. برای اطلاعات بیشتر نزدیک شوید.'));
