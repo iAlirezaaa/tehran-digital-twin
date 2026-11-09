@@ -11,7 +11,7 @@ SPEC.loader.exec_module(mod)
 
 class StaticAtlasTests(unittest.TestCase):
     def test_required_static_files(self):
-        for name in ("index.html", "styles.css", "app.js", ".nojekyll", ".github/workflows/pages.yml"):
+        for name in ("index.html", "styles.css", "app.js", ".nojekyll", ".github/workflows/validate.yml"):
             self.assertTrue((ROOT / name).is_file(), name)
 
     def test_source_registry_json(self):

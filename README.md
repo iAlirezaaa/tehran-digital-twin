@@ -26,24 +26,16 @@ python3 -m http.server 8080
 
 Then visit http://localhost:8080 . Internet connectivity is required for remote vector tiles, elevation tiles, fonts and MapLibre.
 
-## Publish to GitHub Pages
+## Publish to GitHub Pages (one-time configuration)
 
-1. Create public repo `iAlirezaaa/tehran-digital-twin` with **no initial README**.
-2. In this folder:
+The repository is **already created and populated** at [`iAlirezaaa/tehran-digital-twin`](https://github.com/iAlirezaaa/tehran-digital-twin). The app is static; no build step or API keys are needed.
 
-```sh
-git init
-git add .
-git commit -m "feat: initial Tehran citywide streaming 3D atlas"
-git branch -M main
-git remote add origin https://github.com/iAlirezaaa/tehran-digital-twin.git
-git push -u origin main
-```
+1. Open [Repository Settings → Pages](https://github.com/iAlirezaaa/tehran-digital-twin/settings/pages).
+2. Under **Build and deployment**, set **Source** to **Deploy from a branch**.
+3. Choose **Branch: `main`**, **Folder: `/(root)`**, then press **Save**.
+4. After GitHub confirms a successful Pages deployment, open **https://ialirezaaa.github.io/tehran-digital-twin/**.
 
-3. Open **Settings → Pages → Build and deployment → Source: GitHub Actions**. The included `.github/workflows/pages.yml` will deploy the static app on main pushes.
-4. Check the workflow in **Actions** and open the published `github.io` URL. Deployment isn't automatic until Pages is enabled for the repo.
-
-If the repo exists already, don't overwrite its files blindly: inspect it first.
+The website will then republish on future pushes to `main`. The included GitHub Actions validation workflow checks the code and is separate from Pages deployment. Until Pages is enabled and the deployment succeeds, the site URL should not be reported as live.
 
 ## Current data architecture
 
@@ -69,16 +61,6 @@ See [`docs/ROADMAP.md`](docs/ROADMAP.md) for acquisition, validation, geometry, 
 - Elevation: Mapzen Terrain Tiles / AWS Open Data. Per-input DEM credits apply; follow original upstream terms.
 - Place search: OpenStreetMap Nominatim. Follow OSMF usage policy.
 - Application source: MIT License. This does not relicense third-party geographic datasets.
-
-### One-command creation (with GitHub CLI)
-
-If you have [GitHub CLI](https://cli.github.com/) installed and authenticated (`gh auth login`), this script can **create the new repository**, push the project and attempt to enable Pages:
-
-```sh
-python scripts/publish_github.py
-```
-
-It refuses to overwrite an existing repository. Check **Actions → Deploy Tehran Atlas to GitHub Pages** before assuming the public URL is live.
 
 ## Testing
 

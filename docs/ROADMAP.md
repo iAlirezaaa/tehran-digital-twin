@@ -14,8 +14,8 @@
 - [x] 3D extrusion from vector building layer at high zoom.
 - [x] Terrain toggle using public DEM source.
 - [x] RTL mobile UI, manual search, 8 place presets, link sharing and inspector.
-- [x] GitHub Pages workflow and documentation.
-- [ ] Deploy and verify on GitHub Pages. Requires repository creation / Pages configuration.
+- [x] GitHub Pages branch-publishing instructions and GitHub Actions validation.
+- [ ] Enable Pages in repository Settings → Pages (Deploy from a branch, main / root) and verify the public URL.
 
 ## Phase 1 — Ground-truth geography
 
